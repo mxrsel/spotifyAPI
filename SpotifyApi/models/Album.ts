@@ -7,14 +7,13 @@ const AlbumSchema = new Schema({
         type: String,
         required: [true, 'Name is required'],
     },
-    artist_id: {
+    artist: {
         type: Schema.Types.ObjectId,
         ref: "Artist",
-        required: true,
+        required: true
     },
     released: {
-        type: Date,
-        default: new Date(),
+        type: String,
         required: true,
     },
     albumImage: String,

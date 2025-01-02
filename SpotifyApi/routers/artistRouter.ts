@@ -13,6 +13,16 @@ artistRouter.get("/", async (_req, res, next) => {
     }
 });
 
+artistRouter.get('/:id', async(req, res, next) => {
+    if(!req.params.id) res.status(404).send('Not found!');
+
+    try {
+        res.send(await Artist.findById(req.params.id));
+    } catch(e) {
+        next(e)
+    }
+});
+
 artistRouter.post("/", imagesUpload.single('artistImage'), async (req, res, next) => {
 
     if(!req.body.name) {
