@@ -7,11 +7,22 @@ export const albumRouter = express.Router();
 
 albumRouter.get('/', async(_req, res, next) => {
 try {
-    res.send(await Album.find());
+    res.send(await Album.find().populate("artist", "-_id name artistImage artistBio"));
 } catch(e) {
     next(e)
     }
 });
+
+albumRouter.get('/:id', async(req, res, next) => {
+    try {
+        if (!req.params.id) res.status(404).send('Not found!');
+
+        const oneAlbum = await Album.findById(req.params.id);
+        res.send(oneAlbum);
+    } catch(e) {
+        next(e)
+    }
+})
 
 albumRouter.post('/', imagesUpload.single('albumImage'), async(req, res, next) => {
     try {

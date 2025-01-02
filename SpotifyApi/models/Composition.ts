@@ -7,11 +7,14 @@ const CompositionSchema = new Schema({
         type: String,
         required: true
     },
-    albumName: {
+    album: {
         type: Schema.Types.ObjectId,
+        ref: 'Album',
         required: true
     },
-    timing: {
-        type: String,
-    }
+    timing: String,
+
 })
+
+const Composition = mongoose.model('Composition', CompositionSchema);
+export default Composition;
