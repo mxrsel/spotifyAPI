@@ -5,8 +5,15 @@ import Album from "../models/Album";
 
 export const compositionRouter = express.Router();
 
-compositionRouter.get('/', async(_req, res, next) => {
+compositionRouter.get('/', async(req, res, next) => {
     try {
+        const {albumId} = req.query;
+
+        if(albumId) {
+            res.send(await Composition.find({album: albumId}).populate("album", "-_id name artist released albumImage"))
+        }
+
+
         res.send(await Composition.find().populate("album", "-_id name artist released albumImage"));
     } catch(e) {
         next(e)
