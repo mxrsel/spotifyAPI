@@ -1,16 +1,25 @@
-import mongoose from "mongoose";
+import mongoose, {Model} from "mongoose";
 import bcrypt from 'bcrypt';
+import {randomUUID} from "node:crypto";
 
 interface User {
     username: string
     password: string
+    token: string
 }
+
+interface UserMethods {
+    passwordCheckout(password: string): Promise<boolean>;
+    generateToken(): void
+}
+
+type UserModel = Model<User, {}, UserMethods>;
 
 const SALT_WORK_FACTOR = 8;
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema<User>({
+const UserSchema = new Schema<User, UserModel, UserMethods>({
     username: {
         type: String,
         required: true,
@@ -19,6 +28,10 @@ const UserSchema = new Schema<User>({
     password: {
         type: String,
         required: true,
+    },
+    token: {
+        type: String,
+        unique: true
     }
 });
 
@@ -33,5 +46,13 @@ UserSchema.pre('save', async function(next) {
     next();
 })
 
-const User = mongoose.model("User", UserSchema);
+UserSchema.methods.passwordCheckout = function(password) {
+    return bcrypt.compare(password, this.password);
+};
+
+UserSchema.methods.generateToken = function() {
+    this.token = randomUUID();
+};
+
+const User = mongoose.model<User, UserModel>("User", UserSchema);
 export default User;
