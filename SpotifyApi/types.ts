@@ -23,3 +23,9 @@ export interface Composition {
     album: string
     timing: string
 }
+
+export interface CompositionHistoryTypes {
+    user: string
+    composition: string
+    datetime: string
+}
