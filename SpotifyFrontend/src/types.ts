@@ -57,3 +57,6 @@ export interface CompositionHistoryMutation {
     datetime: string
 }
 
+export type ApiArtist = Omit<ArtistMutation, '_id'>;
+export type ApiAlbum = Omit<AlbumMutation, '_id'>;
+
