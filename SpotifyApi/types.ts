@@ -13,7 +13,7 @@ export interface Album {
     _id: string
     name: string
     artist: string
-    released: string
+    released: number
     albumImage: string | null
 }
 
@@ -22,6 +22,7 @@ export interface Composition {
     name: string
     album: string
     timing: string
+    composition_number: number
 }
 
 export interface CompositionHistoryTypes {

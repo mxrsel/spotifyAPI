@@ -13,6 +13,10 @@ const CompositionSchema = new Schema({
         required: true
     },
     timing: String,
+    composition_number: {
+        type: Number,
+        required: true
+    }
 
 })
 

@@ -13,8 +13,9 @@ compositionRouter.get('/', async(req, res, next) => {
             res.send(await Composition.find({album: albumId}).populate("album", "-_id name artist released albumImage"))
         }
 
-
-        res.send(await Composition.find().populate("album", "-_id name artist released albumImage"));
+        res.send(await Composition.find().
+        populate("album", "-_id name artist released albumImage").
+        sort({composition_number: 1}));
     } catch(e) {
         next(e)
     }
@@ -30,6 +31,7 @@ compositionRouter.post('/', async(req, res, next) => {
             name: req.body.name,
             album: req.body.album,
             timing: req.body.timing,
+            composition_number: req.body.composition_number + 1,
         };
 
     try {
