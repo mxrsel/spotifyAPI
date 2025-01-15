@@ -8,8 +8,15 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {Avatar, Button} from "@mui/material";
+import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
+import {useNavigate} from "react-router-dom";
+import {register} from "../../store/thunks/userThunk/userThunk.ts";
 
 const RegisterPage = () => {
+    const dispatch = useAppDispatch();
+    const registerError = useAppSelector((state) => state.user.isError);
+    const navigate = useNavigate();
+
     const [user, setUser] = useState<RegisterUser>({
         username: '',
         password: ''
@@ -25,10 +32,23 @@ const RegisterPage = () => {
         ));
     };
 
-    const onSubmit = (e: React.FormEvent) => {
+    const onSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
-        console.log({...user});
+        try {
+            await dispatch(register(user));
+            navigate('/');
+        } catch(e) {
+            console.log(e)
+        }
     };
+
+    const getFieldErr = (fieldName: string) => {
+        try {
+            return registerError?.errors[fieldName].message;
+        } catch {
+            return undefined
+        }
+    }
 
     return (
         <div>
@@ -59,6 +79,8 @@ const RegisterPage = () => {
                                     autoComplete="username"
                                     value={user.username}
                                     onChange={handleChange}
+                                    error={Boolean(getFieldErr('username'))}
+                                    helperText={getFieldErr('username')}
                                 />
                             </Grid>
                             <Grid size={{xs: 12}}>
@@ -72,6 +94,8 @@ const RegisterPage = () => {
                                     autoComplete="new-password"
                                     value={user.password}
                                     onChange={handleChange}
+                                    error={Boolean(getFieldErr('password'))}
+                                    helperText={getFieldErr('password')}
                                 />
                             </Grid>
                         </Grid>

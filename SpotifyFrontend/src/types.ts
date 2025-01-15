@@ -9,6 +9,18 @@ export interface RegisterResponse {
     message: string
 }
 
+export interface ValidationErr {
+    errors: {
+        [key: string]: {
+            name: string;
+            message: string;
+        }
+    }
+    message: string;
+    name: string;
+    _message: string;
+}
+
 export interface RegisterUser {
     username: string;
     password: string;

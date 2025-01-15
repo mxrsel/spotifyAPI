@@ -1,4 +1,4 @@
-import {User} from "../../../types.ts";
+import {User, ValidationErr} from "../../../types.ts";
 import {createSlice} from "@reduxjs/toolkit";
 import {register} from "../../thunks/userThunk/userThunk.ts";
 
@@ -6,13 +6,13 @@ import {register} from "../../thunks/userThunk/userThunk.ts";
 interface UserProps {
     user: User | null;
     isLoading: boolean;
-    isError: boolean
+    isError: ValidationErr | null
 }
 
 const initialState: UserProps = {
     user: null,
     isLoading: false,
-    isError: false
+    isError: null
 }
 
 const userSlice = createSlice({
@@ -24,7 +24,7 @@ const userSlice = createSlice({
             .addCase(
                 register.pending, (state) => {
                     state.isLoading = true;
-                    state.isError = false
+                    state.isError = null
                 }
             )
             .addCase(
@@ -34,9 +34,9 @@ const userSlice = createSlice({
                 }
             )
             .addCase(
-                register.rejected, (state) => {
+                register.rejected, (state, {payload: err}) => {
                     state.isLoading = false;
-                    state.isError = true
+                    state.isError = err || null;
                 }
             )
     }

@@ -24,6 +24,13 @@ const UserSchema = new Schema<User, UserModel, UserMethods>({
         type: String,
         required: true,
         unique: true,
+        validate: {
+            validator: async function (value: string): Promise<boolean> {
+                const user: User | null = await User.findOne({username: value});
+                return !user;
+            },
+            message: 'This name is already exists!',
+        }
     },
     password: {
         type: String,
