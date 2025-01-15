@@ -1,7 +1,17 @@
 export interface User {
+    _id: string
+    username: string;
+    token: string
+}
+
+export interface RegisterResponse {
+    user: User;
+    message: string
+}
+
+export interface RegisterUser {
     username: string;
     password: string;
-    token: string;
 }
 
 export interface Artist {

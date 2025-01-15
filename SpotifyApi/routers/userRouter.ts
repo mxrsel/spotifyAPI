@@ -4,7 +4,7 @@ import { Error } from 'mongoose';
 
 export const userRouter = express.Router();
 
-userRouter.post('/', async (req, res, next) => {
+userRouter.post('/register', async (req, res, next) => {
     try {
         const newUser = new User({
             username: req.body.username,
@@ -14,7 +14,7 @@ userRouter.post('/', async (req, res, next) => {
         newUser.generateToken();
 
         await newUser.save();
-        res.send(newUser);
+        res.send({newUser, message: 'Registration success'});
         return;
     } catch(e) {
         if (e instanceof Error.ValidationError) {
