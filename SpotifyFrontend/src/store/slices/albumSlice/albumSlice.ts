@@ -1,11 +1,15 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Album, ApiAlbum, ApiArtist} from "../../../types.ts";
-import {addAlbum, getAlbumById, getAllAlbums, getArtistById} from "../../thunks/albumThunk/albumThunk.ts";
+import {Album, ApiAlbum} from "../../../types.ts";
+import {
+    addAlbum,
+    getAlbumById,
+    getAllAlbums,
+    getArtistAlbumsById,
+} from "../../thunks/albumThunk/albumThunk.ts";
 
 interface AlbumProps {
     albums: Album[];
     oneAlbum: ApiAlbum | null;
-    oneArtist: ApiArtist | null
     isLoading: boolean;
     isError: boolean;
 }
@@ -13,7 +17,6 @@ interface AlbumProps {
 const initialState: AlbumProps = {
     albums: [],
     oneAlbum: null,
-    oneArtist: null,
     isLoading: false,
     isError: false
 }
@@ -78,19 +81,19 @@ const albumSlice = createSlice({
                 }
             )
             .addCase(
-                getArtistById.pending, (state) => {
+                getArtistAlbumsById.pending, (state) => {
                     state.isLoading = true;
                     state.isError = false;
                 }
             )
             .addCase(
-                getArtistById.fulfilled, (state, action: PayloadAction<ApiArtist | null>) => {
+                getArtistAlbumsById.fulfilled, (state,action) => {
                     state.isLoading = false;
-                    state.oneArtist = action.payload
+                    state.albums = action.payload
                 }
             )
             .addCase(
-                getArtistById.rejected, (state) => {
+                getArtistAlbumsById.rejected, (state) => {
                     state.isLoading = false;
                     state.isError = true
                 }

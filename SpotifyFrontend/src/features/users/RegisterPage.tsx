@@ -14,7 +14,7 @@ import {register} from "../../store/thunks/userThunk/userThunk.ts";
 
 const RegisterPage = () => {
     const dispatch = useAppDispatch();
-    const registerError = useAppSelector((state) => state.user.isError);
+    const registerError = useAppSelector((state) => state.users.isError);
     const navigate = useNavigate();
 
     const [user, setUser] = useState<RegisterUser>({

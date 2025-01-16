@@ -1,17 +1,15 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {ApiAlbum, Composition} from "../../../types.ts";
-import {addComposition, getAlbumById, getAllCompositions} from "../../thunks/compositionThunk/compositionThunk.ts";
+import {createSlice} from "@reduxjs/toolkit";
+import {Composition} from "../../../types.ts";
+import {addComposition, getCompositionsByAlbum, getAllCompositions} from "../../thunks/compositionThunk/compositionThunk.ts";
 
 interface CompositionProps {
     compositions: Composition[];
-    album: ApiAlbum | null;
     isLoading: boolean;
     isError: boolean
 }
 
 const initialState: CompositionProps = {
     compositions: [],
-    album: null,
     isLoading: false,
     isError: false
 }
@@ -58,19 +56,19 @@ const compositionSlice = createSlice({
                 }
             )
             .addCase(
-                getAlbumById.pending, (state) => {
+                getCompositionsByAlbum.pending, (state) => {
                     state.isLoading = true;
                     state.isError = false;
                 }
             )
             .addCase(
-                getAlbumById.fulfilled, (state, action: PayloadAction<ApiAlbum | null>) => {
+                getCompositionsByAlbum.fulfilled, (state, {payload: albumComposition}) => {
                     state.isLoading = false;
-                    state.album = action.payload;
+                    state.compositions = albumComposition
                 }
             )
             .addCase(
-                getAlbumById.rejected, (state) => {
+                getCompositionsByAlbum.rejected, (state) => {
                     state.isLoading = false;
                     state.isError = true;
                 }

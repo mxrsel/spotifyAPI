@@ -1,5 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {ApiAlbum, Composition, CompositionMutation} from "../../../types.ts";
+import {Composition, CompositionMutation} from "../../../types.ts";
 import axiosApi from "../../../axiosApi.ts";
 
 export const getAllCompositions = createAsyncThunk<Composition[], void>(
@@ -13,19 +13,17 @@ export const getAllCompositions = createAsyncThunk<Composition[], void>(
 export const addComposition = createAsyncThunk<void, CompositionMutation>(
     'compositions/addComposition',
     async(composition) => {
-        await axiosApi.post('/compositions.json', {...composition});
+        await axiosApi.post('/compositions', {...composition});
     }
 );
 
-export const getAlbumById = createAsyncThunk<ApiAlbum | null, string>(
+export const getCompositionsByAlbum = createAsyncThunk(
     'compositions/getAlbumId',
-    async(albumId) => {
-        const response = await axiosApi.get('/compositions',
+    async(albumId: string) => {
+        const response = await axiosApi.get<Composition[]>(`/compositions?albumId=${albumId}`,
             {params: {album: albumId}
             });
 
-            if(!response.data) return null;
-
-        return response.data;
+        return response.data.sort((firstAddedComposition, lastAddedComposition) => lastAddedComposition.composition_number - firstAddedComposition.composition_number);
     }
 );

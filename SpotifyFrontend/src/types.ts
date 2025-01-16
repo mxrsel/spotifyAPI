@@ -59,12 +59,14 @@ export interface Composition {
     name: string
     album: Album
     timing: string
+    composition_number: number
 }
 
 export interface CompositionMutation {
     album: string;
     name: string;
     timing: string
+    composition_number: number
 }
 
 export interface CompositionHistoryTypes {

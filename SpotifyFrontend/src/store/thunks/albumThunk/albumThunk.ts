@@ -1,5 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {Album, AlbumMutation, ApiAlbum, ApiArtist} from "../../../types.ts";
+import {Album, AlbumMutation, ApiAlbum} from "../../../types.ts";
 import axiosApi from "../../../axiosApi.ts";
 
 export const getAllAlbums = createAsyncThunk<Album[], void>(
@@ -31,22 +31,18 @@ export const addAlbum = createAsyncThunk<void, AlbumMutation>(
 export const getAlbumById = createAsyncThunk<ApiAlbum | null, string>(
     'albums/getAlbumById',
     async(albumId) => {
-        const response = await axiosApi.get<ApiAlbum | null>(`/albums/${albumId}.json`);
+        const response = await axiosApi.get<ApiAlbum | null>(`/albums/${albumId}`);
         if(!response.data) return null;
 
         return response.data;
     }
 );
 
-export const getArtistById = createAsyncThunk<ApiArtist | null, string>(
+export const getArtistAlbumsById = createAsyncThunk(
     'albums/getArtistById',
-    async(artistId) => {
-        const response = await axiosApi.get('/albums',
-            {params: {artist: artistId}
-            });
-
-        if (!response.data) return null
-
-        return response.data;
+    async(artistId: string) => {
+        const response = await axiosApi.get<Album[]>(`/albums?artistId=${artistId}`);
+        console.log(response.data);
+        return response.data.sort((firstReleased, lastReleased) => firstReleased .released - lastReleased.released);
     }
 )

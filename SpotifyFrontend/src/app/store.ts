@@ -2,13 +2,14 @@ import {configureStore} from "@reduxjs/toolkit";
 import {artistReducer} from "../store/slices/artistSlice/artistSlice.ts";
 import {compositionReducer} from "../store/slices/compositionSlice/compositionSlice.ts";
 import {userReducer} from "../store/slices/userSlice/userSlice.ts";
+import {albumReducer} from "../store/slices/albumSlice/albumSlice.ts";
 
 export const store = configureStore({
     reducer: {
-        artist: artistReducer,
-        album: artistReducer,
-        composition: compositionReducer,
-        user: userReducer,
+        artists: artistReducer,
+        albums: albumReducer,
+        compositions: compositionReducer,
+        users: userReducer,
     }
 });
 

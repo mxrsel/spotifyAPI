@@ -2,7 +2,7 @@ import mongoose, {Model} from "mongoose";
 import bcrypt from 'bcrypt';
 import {randomUUID} from "node:crypto";
 
-interface User {
+export interface UserTypes {
     username: string
     password: string
     token: string
@@ -13,20 +13,20 @@ interface UserMethods {
     generateToken(): void
 }
 
-type UserModel = Model<User, {}, UserMethods>;
+type UserModel = Model<UserTypes, {}, UserMethods>;
 
 const SALT_WORK_FACTOR = 8;
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema<User, UserModel, UserMethods>({
+const UserSchema = new Schema<UserTypes, UserModel, UserMethods>({
     username: {
         type: String,
         required: true,
         unique: true,
         validate: {
             validator: async function (value: string): Promise<boolean> {
-                const user: User | null = await User.findOne({username: value});
+                const user: UserTypes | null = await User.findOne({username: value});
                 return !user;
             },
             message: 'This name is already exists!',
@@ -61,5 +61,5 @@ UserSchema.methods.generateToken = function() {
     this.token = randomUUID();
 };
 
-const User = mongoose.model<User, UserModel>("User", UserSchema);
+const User = mongoose.model<UserTypes, UserModel>("User", UserSchema);
 export default User;

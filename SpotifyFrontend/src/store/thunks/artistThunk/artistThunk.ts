@@ -32,7 +32,7 @@ export const addArtist = createAsyncThunk<void, ArtistMutation>(
 export const getArtistById = createAsyncThunk<ApiArtist | null, string>(
     'artists/getArtistById',
     async(artistId) => {
-        const response = await axiosApi.get<ApiArtist | null>(`/artists/${artistId}.json`);
+        const response = await axiosApi.get<ApiArtist | null>(`/albums?artist=${artistId}`);
         if (!response.data) return null;
         return response.data;
     }

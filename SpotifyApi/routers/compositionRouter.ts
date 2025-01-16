@@ -21,6 +21,16 @@ compositionRouter.get('/', async(req, res, next) => {
     }
 });
 
+compositionRouter.get('/:albumId/compositions', async (req, res, next) => {
+    const { albumId } = req.params;
+    try {
+        const compositions = await Composition.find({ album: albumId });
+        res.send(compositions);
+    } catch (e) {
+        next(e)
+    }
+});
+
 compositionRouter.post('/', async(req, res, next) => {
 
         if(req.body.album) {
