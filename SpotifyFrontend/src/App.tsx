@@ -5,6 +5,7 @@ import Artist from "./features/artists/Artist.tsx";
 import ArtistAlbums from "./features/artists/ArtistAlbums.tsx";
 import AlbumCompositions from "./features/albums/AlbumCompositions.tsx";
 import LoginPage from "./features/users/LoginPage.tsx";
+import History from "./features/history/History.tsx";
 
 const App = () => {
     return (
@@ -19,6 +20,7 @@ const App = () => {
                 <Route path="/" element={<Artist />} />
                 <Route path="/albums/:artistId/albums" element={<ArtistAlbums />} />
                 <Route path="/albums/:albumId" element={<AlbumCompositions />} />
+                <Route path='/histories' element={<History/>}/>
             </Routes>
         </div>
     );

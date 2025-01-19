@@ -79,6 +79,7 @@ export interface CompositionMutation {
 }
 
 export interface CompositionHistoryTypes {
+    _id: string
     user: User
     composition: Composition
     datetime: string

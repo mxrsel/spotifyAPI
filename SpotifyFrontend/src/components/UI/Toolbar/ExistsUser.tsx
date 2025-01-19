@@ -46,7 +46,7 @@ const ExistsUser: React.FC<Props> = ({user}) => {
                 </MenuItem>
                 <MenuItem >
                     <NavLink
-                        to='/composition_history'
+                        to='/histories'
                     className='text-decoration-none text-black'>
                         History
                     </NavLink>

@@ -1,18 +1,22 @@
 import express from "express";
-import CompositionHistory from "../models/CompositionHistory";
-import {CompositionHistoryTypes} from "../types";
 import User from "../models/User";
 import { Error } from 'mongoose';
+import History from "../models/History";
+import auth, {RequestWithUser} from "../middleware/auth";
 
 
-export const compositionHistoryRouter = express.Router();
+export const HistoryRouter = express.Router();
 
-compositionHistoryRouter.get('/', async(_req, res) => {
-    res.send(await CompositionHistory.find().populate('composition', 'name'));
+HistoryRouter.get('/', auth, async(req, res) => {
+    let expressReq = req as RequestWithUser;
+    const user = expressReq.user;
+
+    const userId = user._id
+    res.send(await History.find({user: userId}).populate('composition', 'name timing'));
 })
 
-compositionHistoryRouter.post('/', async (req, res, next) => {
-try {
+HistoryRouter.post('/', auth, async (req, res, next) => {
+   try {
     const token = req.get('Authorization');
 
     if (!token) {
@@ -24,16 +28,19 @@ try {
     if (!userToken) {
         res.status(400).send({error: 'User Token wrong'});
     }
-
-    const userHistory: CompositionHistoryTypes = {
-        user: req.body.user,
-        composition: req.body.composition,
-        datetime: new Date().toDateString(),
+    if (userToken === null) {
+        res.status(400).send({error: 'Token not found'})
+        return
     }
 
-    const history = new CompositionHistory(userHistory);
+    const userHistory = new History( {
+        user: userToken._id,
+        composition: req.body.composition,
+        datetime: new Date().toISOString(),
+    })
 
-    await history.save();
+
+    const history = await userHistory.save();
     res.send(history);
 } catch(e) {
     if (e instanceof Error.ValidationError) {

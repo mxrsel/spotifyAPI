@@ -2,9 +2,10 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const CompositionHistorySchema = new Schema({
+const HistorySchema = new Schema({
     user: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
     },
     composition: {
@@ -18,5 +19,5 @@ const CompositionHistorySchema = new Schema({
     },
 });
 
-const CompositionHistory = mongoose.model('CompositionHistory', CompositionHistorySchema);
-export default CompositionHistory;
+const History = mongoose.model('History', HistorySchema);
+export default History;
