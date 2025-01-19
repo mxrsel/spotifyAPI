@@ -30,3 +30,9 @@ export interface CompositionHistoryTypes {
     composition: string
     datetime: string
 }
+
+export interface UserTypes {
+    username: string
+    password: string
+    token: string
+}

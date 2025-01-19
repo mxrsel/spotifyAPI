@@ -13,7 +13,7 @@ const ArtistsItem: React.FC<Props> = ({artist}) => {
     return (
         <div className='container'>
             <div className='row'>
-            <NavLink to={`/artists/${artist._id}/albums`}>
+            <NavLink to={`/albums/${artist._id}/albums`}>
                 <div className='card mt-5 '>
                         <div className='card-img'>
                             {artist.artistImage && (

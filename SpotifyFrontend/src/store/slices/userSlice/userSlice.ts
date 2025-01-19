@@ -1,30 +1,36 @@
-import {User, ValidationErr} from "../../../types.ts";
+import {GlobalError, User, ValidationErr} from "../../../types.ts";
 import {createSlice} from "@reduxjs/toolkit";
-import {register} from "../../thunks/userThunk/userThunk.ts";
+import {login, register} from "../../thunks/userThunk/userThunk.ts";
 
 
 interface UserProps {
     user: User | null;
     isLoading: boolean;
-    isError: ValidationErr | null
+    registerError: ValidationErr | null
+    loginError: GlobalError | null
 }
 
 const initialState: UserProps = {
     user: null,
     isLoading: false,
-    isError: null
+    registerError: null,
+    loginError: null
 }
 
 const userSlice = createSlice({
     name: 'users',
     initialState,
-    reducers: {},
+    reducers: {
+        logoutUser: (state) => {
+            state.user = null
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(
                 register.pending, (state) => {
                     state.isLoading = true;
-                    state.isError = null
+                    state.registerError = null
                 }
             )
             .addCase(
@@ -36,10 +42,29 @@ const userSlice = createSlice({
             .addCase(
                 register.rejected, (state, {payload: err}) => {
                     state.isLoading = false;
-                    state.isError = err || null;
+                    state.registerError = err || null;
+                }
+            )
+            .addCase(
+                login.pending, (state) => {
+                    state.isLoading = true;
+                    state.loginError = null
+                }
+            )
+            .addCase(
+                login.fulfilled, (state, {payload: user}) => {
+                    state.isLoading = false;
+                    state.user = user;
+                }
+            )
+            .addCase(
+                login.rejected, (state, {payload: err}) => {
+                    state.isLoading = false;
+                    state.loginError = err || null;
                 }
             )
     }
 });
 
 export const userReducer = userSlice.reducer
+export const {logoutUser} = userSlice.actions;

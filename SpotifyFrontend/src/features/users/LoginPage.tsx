@@ -1,22 +1,22 @@
 import React, {useState} from 'react';
-import {RegisterUser} from "../../types.ts";
+import {LoginUser} from "../../types.ts";
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {Avatar, Button} from "@mui/material";
+import {Alert, Avatar, Button} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {NavLink, useNavigate} from "react-router-dom";
-import {register} from "../../store/thunks/userThunk/userThunk.ts";
+import {login} from "../../store/thunks/userThunk/userThunk.ts";
 
 const RegisterPage = () => {
     const dispatch = useAppDispatch();
-    const registerError = useAppSelector((state) => state.users.isError);
+    const loginError = useAppSelector((state) => state.users.loginError);
     const navigate = useNavigate();
 
-    const [user, setUser] = useState<RegisterUser>({
+    const [user, setUser] = useState<LoginUser>({
         username: '',
         password: ''
     });
@@ -33,21 +33,10 @@ const RegisterPage = () => {
 
     const onSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
-        try {
-            await dispatch(register(user));
+            await dispatch(login(user)).unwrap();
+        console.log(user)
             navigate('/');
-        } catch(e) {
-            console.log(e)
-        }
     };
-
-    const getFieldErr = (fieldName: string) => {
-        try {
-            return registerError?.errors[fieldName].message;
-        } catch {
-            return undefined
-        }
-    }
 
     return (
         <div>
@@ -61,11 +50,18 @@ const RegisterPage = () => {
                     }}
                 >
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
+                        <LockOpenIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign up
+                        Log in
                     </Typography>
+
+                    {loginError && (
+                        <Alert severity='error' sx={{mt: 3, width: '100%'}}>
+                            {loginError.error}
+                        </Alert>
+                    )}
+
                     <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
                         <Grid container direction={'column'} size={12} spacing={2}>
 
@@ -78,8 +74,6 @@ const RegisterPage = () => {
                                     autoComplete="username"
                                     value={user.username}
                                     onChange={handleChange}
-                                    error={Boolean(getFieldErr('username'))}
-                                    helperText={getFieldErr('username')}
                                 />
                             </Grid>
                             <Grid size={{xs: 12}}>
@@ -93,8 +87,6 @@ const RegisterPage = () => {
                                     autoComplete="new-password"
                                     value={user.password}
                                     onChange={handleChange}
-                                    error={Boolean(getFieldErr('password'))}
-                                    helperText={getFieldErr('password')}
                                 />
                             </Grid>
                         </Grid>
@@ -104,12 +96,12 @@ const RegisterPage = () => {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign Up
+                            Log in
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid>
-                                <NavLink to='/login'>
-                                    Already have an account? Sign In
+                                <NavLink to='/register'>
+                                    Don't have an account? Sign Up
                                 </NavLink>
                             </Grid>
                         </Grid>

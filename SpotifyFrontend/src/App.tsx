@@ -4,15 +4,20 @@ import RegisterPage from "./features/users/RegisterPage.tsx";
 import Artist from "./features/artists/Artist.tsx";
 import ArtistAlbums from "./features/artists/ArtistAlbums.tsx";
 import AlbumCompositions from "./features/albums/AlbumCompositions.tsx";
+import LoginPage from "./features/users/LoginPage.tsx";
 
 const App = () => {
     return (
         <div>
+
+            <header>
+                <SpotifyToolbar />
+            </header>
             <Routes>
-                <Route path='/' element={<SpotifyToolbar/>}/>
                 <Route path='/register' element={<RegisterPage/>}/>
-                <Route path="/artists" element={<Artist />} />
-                <Route path="/artists/:artistId/albums" element={<ArtistAlbums />} />
+                <Route path='/login' element={<LoginPage/>}/>
+                <Route path="/" element={<Artist />} />
+                <Route path="/albums/:artistId/albums" element={<ArtistAlbums />} />
                 <Route path="/albums/:albumId" element={<AlbumCompositions />} />
             </Routes>
         </div>

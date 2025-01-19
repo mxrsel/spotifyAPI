@@ -41,7 +41,7 @@ export const getAlbumById = createAsyncThunk<ApiAlbum | null, string>(
 export const getArtistAlbumsById = createAsyncThunk(
     'albums/getArtistById',
     async(artistId: string) => {
-        const response = await axiosApi.get<Album[]>(`/albums?artistId=${artistId}`);
+        const response = await axiosApi.get<Album[]>(`/albums/${artistId}/albums`);
         console.log(response.data);
         return response.data.sort((firstReleased, lastReleased) => firstReleased .released - lastReleased.released);
     }

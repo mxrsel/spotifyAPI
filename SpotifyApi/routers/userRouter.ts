@@ -1,6 +1,7 @@
 import express from "express";
 import User from "../models/User";
 import { Error } from 'mongoose';
+import auth, {RequestWithUser} from "../middleware/auth";
 
 export const userRouter = express.Router();
 
@@ -25,7 +26,7 @@ userRouter.post('/register', async (req, res, next) => {
     }
 });
 
-userRouter.post('/session', async (req, res) => {
+userRouter.post('/sessions', async (req, res) => {
     const existsUser = await User.findOne({username: req.body.username});
 
     if(!existsUser) {
@@ -43,23 +44,32 @@ userRouter.post('/session', async (req, res) => {
     existsUser.generateToken();
     await existsUser.save();
 
-    res.send({message: 'User and password correct', existsUser});
+    res.send({message: 'User and password correct', user: existsUser});
     return
 });
 
-userRouter.post('/secret', async(req, res) => {
-    const token = req.get('Authorization');
+userRouter.delete('/sessions', auth, async(req, res, next) => {
+    let expressReq = req as RequestWithUser;
+    const user = expressReq.user;
 
-    if(!token) {
-        res.status(400).send({error: 'User token is not found'});
-        return
+    try {
+        const existsUser = await User.findOne({_id: user._id});
+        if(existsUser) {
+            existsUser.generateToken();
+            await existsUser.save();
+            res.send({message: 'Logout successfully done'});
+        }
+    } catch(e) {
+        next(e)
     }
-    const user = await User.findOne({token});
+});
 
-    if(!user) {
-        res.status(400).send({error: 'Wrong token'});
-        return
-    }
+userRouter.post('/secret', auth, async(req, res) => {
+    let expressReq = req as RequestWithUser;
+
+    const user = expressReq.user;
+
+    console.log(user);
     res.send({
         username: user.username,
         message: "Nothing there :)"

@@ -1,12 +1,7 @@
-import mongoose, {Model} from "mongoose";
+import mongoose, {HydratedDocument, Model} from "mongoose";
 import bcrypt from 'bcrypt';
 import {randomUUID} from "node:crypto";
-
-export interface UserTypes {
-    username: string
-    password: string
-    token: string
-}
+import {UserTypes} from "../types";
 
 interface UserMethods {
     passwordCheckout(password: string): Promise<boolean>;
@@ -19,13 +14,18 @@ const SALT_WORK_FACTOR = 8;
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema<UserTypes, UserModel, UserMethods>({
+const UserSchema = new Schema<
+    HydratedDocument<UserTypes>,
+    UserModel,
+    UserMethods>
+({
     username: {
         type: String,
         required: true,
         unique: true,
         validate: {
-            validator: async function (value: string): Promise<boolean> {
+            validator: async function (this: HydratedDocument<UserTypes>, value: string): Promise<boolean> {
+                if(!this.isModified('username')) return true;
                 const user: UserTypes | null = await User.findOne({username: value});
                 return !user;
             },
@@ -61,5 +61,5 @@ UserSchema.methods.generateToken = function() {
     this.token = randomUUID();
 };
 
-const User = mongoose.model<UserTypes, UserModel>("User", UserSchema);
+const User = mongoose.model("User", UserSchema);
 export default User;
