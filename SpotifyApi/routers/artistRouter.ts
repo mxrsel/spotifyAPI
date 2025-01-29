@@ -32,7 +32,8 @@ artistRouter.post("/", imagesUpload.single('artistImage'), async (req, res, next
     const newArtist: ArtistWithoutId = {
         name: req.body.name,
         artistImage: req.file ? 'artist/' + req.file.filename : null,
-        artistBio: req.body.artistBio
+        artistBio: req.body.artistBio,
+        isPublished: req.body.isPublished
     }
 
     try {

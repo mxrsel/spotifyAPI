@@ -42,6 +42,7 @@ compositionRouter.post('/', async(req, res, next) => {
             album: req.body.album,
             timing: req.body.timing,
             composition_number: req.body.composition_number + 1,
+            isPublished: req.body.isPublished
         };
 
     try {

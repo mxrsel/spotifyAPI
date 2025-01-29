@@ -15,6 +15,10 @@ const CompositionSchema = new Schema({
     timing: String,
     composition_number: {
         type: Number,
+    },
+    isPublished: {
+        type: Boolean,
+        default: false
     }
 
 })

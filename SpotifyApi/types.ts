@@ -3,6 +3,7 @@ export interface Artist {
     name: string;
     artistImage: string | null
     artistBio: string
+    isPublished: boolean
 }
 
 export type ArtistWithoutId = Omit<Artist, "_id">;
@@ -15,6 +16,7 @@ export interface Album {
     artist: string
     released: number
     albumImage: string | null
+    isPublished: boolean
 }
 
 export interface Composition {
@@ -23,6 +25,7 @@ export interface Composition {
     album: string
     timing: string
     composition_number: number
+    isPublished: boolean
 }
 
 export interface CompositionHistoryTypes {
@@ -35,4 +38,5 @@ export interface UserTypes {
     username: string
     password: string
     token: string
+    role: string
 }
