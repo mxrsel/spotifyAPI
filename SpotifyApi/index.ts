@@ -7,6 +7,7 @@ import {albumRouter} from "./routers/albumRouter";
 import {compositionRouter} from "./routers/compositionRouter";
 import {userRouter} from "./routers/userRouter";
 import {HistoryRouter} from "./routers/compositionHistoryRouter";
+import adminRouter from "./routers/admin";
 
 const app = express();
 const port = 8000;
@@ -19,7 +20,8 @@ app.use('/artists', artistRouter);
 app.use('/albums', albumRouter);
 app.use('/compositions', compositionRouter);
 app.use('/users', userRouter);
-app.use('/histories', HistoryRouter)
+app.use('/histories', HistoryRouter);
+app.use('/admin', adminRouter);
 
 const run = async() => {
     await mongoose.connect('mongodb://localhost/music');

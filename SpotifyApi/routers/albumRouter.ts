@@ -2,10 +2,11 @@ import express from "express";
 import Album from "../models/Album";
 import {AlbumWithoutId} from "../types";
 import {imagesUpload} from "../multer";
+import auth from "../middleware/auth";
 
 export const albumRouter = express.Router();
 
-albumRouter.get('/', async(req, res, next) => {
+albumRouter.get('/', async(_req, res, next) => {
 try {
     res.send(await Album.find().populate("artist", "-_id name artistImage artistBio"));
 } catch(e) {
@@ -34,7 +35,7 @@ albumRouter.get('/:id', async(req, res, next) => {
     }
 })
 
-albumRouter.post('/', imagesUpload.single('albumImage'), async(req, res, next) => {
+albumRouter.post('/', imagesUpload.single('albumImage'), auth, async(req, res, next) => {
     try {
         const newAlbum: AlbumWithoutId = {
             name: req.body.name,
@@ -51,4 +52,4 @@ albumRouter.post('/', imagesUpload.single('albumImage'), async(req, res, next) =
     } catch(e) {
             next(e)
         }
-})
+});

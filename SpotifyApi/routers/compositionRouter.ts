@@ -2,6 +2,8 @@ import express from 'express';
 import Composition from "../models/Composition";
 import {CompositionWithoutId} from "../types";
 import Album from "../models/Album";
+import auth from "../middleware/auth";
+import permit from "../middleware/permit";
 
 export const compositionRouter = express.Router();
 
@@ -31,7 +33,7 @@ compositionRouter.get('/:albumId/compositions', async (req, res, next) => {
     }
 });
 
-compositionRouter.post('/', async(req, res, next) => {
+compositionRouter.post('/', auth, async(req, res, next) => {
 
         if(req.body.album) {
             const album = await Album.findById(req.body.album);

@@ -2,6 +2,7 @@ import express from "express";
 import Artist from "../models/Artist";
 import {imagesUpload} from "../multer";
 import {ArtistWithoutId} from "../types";
+import auth from "../middleware/auth";
 
 export const artistRouter = express.Router();
 
@@ -23,7 +24,7 @@ artistRouter.get('/:id', async(req, res, next) => {
     }
 });
 
-artistRouter.post("/", imagesUpload.single('artistImage'), async (req, res, next) => {
+artistRouter.post("/", imagesUpload.single('artistImage'), auth, async (req, res, next) => {
 
     if(!req.body.name) {
         res.status(404).send({error: 'Enter Artist Name!'})
@@ -43,4 +44,5 @@ artistRouter.post("/", imagesUpload.single('artistImage'), async (req, res, next
     } catch(e) {
         next(e)
     }
-})
+});
+
