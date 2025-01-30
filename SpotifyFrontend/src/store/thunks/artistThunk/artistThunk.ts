@@ -22,8 +22,8 @@ export const addArtist = createAsyncThunk<void, ArtistMutation, {state: RootStat
         artistKeys.forEach((artistKey) => {
             const artistValue = artist[artistKey];
 
-            if(artistValue !== null) {
-                formData.append(artistKey, artistValue);
+            if(artistValue !== null && artistValue !== undefined) {
+                formData.append(artistKey, artistValue.toString());
             }
         });
 

@@ -9,8 +9,15 @@ import History from "./features/history/History.tsx";
 import NewAlbum from "./containers/newAlbum/newAlbum.tsx";
 import NewArtist from "./containers/newArtist/newArtist.tsx";
 import NewComposition from "./containers/newComposition/newComposition.tsx";
+import AdminLayout from "./features/admin/AdminLayout.tsx";
+import {useAppSelector} from "./app/hooks.ts";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import AdminArtistList from "./features/admin/AdminArtistList.tsx";
+import AdminAlbumList from "./features/admin/AdminAlbumList.tsx";
+import AdminCompositionList from "./features/admin/AdminCompositionList.tsx";
 
 const App = () => {
+    const user = useAppSelector((state) => state.users.user)
     return (
         <div>
 
@@ -27,6 +34,16 @@ const App = () => {
                 <Route path='/newAlbum' element={<NewAlbum/>}/>
                 <Route path='/newArtist' element={<NewArtist/>}/>
                 <Route path='/newComposition' element={<NewComposition/>}/>
+
+
+                <Route path='/admin' element={
+                    <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                        <AdminLayout/>
+                    </ProtectedRoute>}>
+                    <Route path='artists' element={<AdminArtistList/>}/>
+                    <Route path='albums' element={<AdminAlbumList/>}/>
+                    <Route path='compositions' element={<AdminCompositionList/>}/>
+                </Route>
             </Routes>
         </div>
     );

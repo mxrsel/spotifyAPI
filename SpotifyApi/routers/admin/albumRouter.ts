@@ -16,12 +16,13 @@ albumAdminRouter.delete('/:id', async(req, res, next) => {
     try {
         const {id} = req.params;
 
+        await Album.findOneAndDelete({_id: id});
+
         if(!id) {
             res.status(404).send('Not found!');
             return
         }
 
-        await Album.findByIdAndDelete(id);
         res.send({message: 'Album deleted successfully.'});
     } catch(e) {
         next(e)

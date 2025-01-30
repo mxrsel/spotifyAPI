@@ -17,7 +17,8 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
         album: '',
         name: '',
         timing: '',
-        composition_number: ''
+        composition_number: '',
+        isPublished: false
     });
 
     useEffect(() => {
@@ -97,7 +98,7 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
             />
 
 
-            <Button type="submit" variant="contained" color="primary" sx={{mt: 2}}>
+            <Button type="submit" variant="contained" color="primary" sx={{mt: 2}} onClick={() => form.isPublished = true}>
                 Create Composition
             </Button>
         </form>

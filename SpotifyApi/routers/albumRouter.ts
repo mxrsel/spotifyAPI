@@ -8,7 +8,7 @@ export const albumRouter = express.Router();
 
 albumRouter.get('/', async(_req, res, next) => {
 try {
-    res.send(await Album.find().populate("artist", "-_id name artistImage artistBio"));
+    res.send(await Album.find({isPublished: true}).populate("artist", "-_id name artistImage artistBio"));
 } catch(e) {
     next(e)
     }

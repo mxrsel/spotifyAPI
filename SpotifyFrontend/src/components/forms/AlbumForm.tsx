@@ -19,7 +19,8 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
         artist: '',
         name: '',
         released: '',
-        albumImage: null
+        albumImage: null,
+        isPublished: false
     });
 
     useEffect(() => {
@@ -105,7 +106,7 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
                 buttonProps={{startIcon: <CloudUpload/>}}
                 onChange={handleFileChange}
             />
-            <Button type="submit" variant="contained" color="primary" sx={{mt: 2}}>
+            <Button type="submit" variant="contained" color="primary" sx={{mt: 2}} onClick={() => form.isPublished = true}>
                 Create Album
             </Button>
         </form>

@@ -8,7 +8,7 @@ export const artistRouter = express.Router();
 
 artistRouter.get("/", async (_req, res, next) => {
     try {
-        res.send(await Artist.find());
+        res.send(await Artist.find({isPublished: true}));
     } catch(e) {
         next(e)
     }
@@ -32,7 +32,7 @@ artistRouter.post("/", imagesUpload.single('artistImage'), auth, async (req, res
 
     const newArtist: ArtistWithoutId = {
         name: req.body.name,
-        artistImage: req.file ? 'artist/' + req.file.filename : null,
+        artistImage: req.file ? '/' + req.file.filename : null,
         artistBio: req.body.artistBio,
         isPublished: req.body.isPublished
     }

@@ -1,9 +1,17 @@
+import Grid from "@mui/material/Grid2";
+import {Outlet} from "react-router-dom";
+import AdminNav from "./AdminNav.tsx";
 
 const AdminLayout = () => {
     return (
-        <div>
-
-        </div>
+        <Grid container>
+            <Grid>
+                <AdminNav/>
+            </Grid>
+            <Grid>
+                <Outlet/>
+            </Grid>
+        </Grid>
     );
 };
 

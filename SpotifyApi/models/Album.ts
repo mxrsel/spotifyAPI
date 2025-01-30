@@ -23,5 +23,11 @@ const AlbumSchema = new Schema({
     }
 });
 
+AlbumSchema.pre("findOneAndDelete", async function (next) {
+    const composition = this.getQuery()._id;
+    await Album.deleteMany({ composition: composition });
+    next();
+});
+
 const Album = mongoose.model('Album', AlbumSchema);
 export default Album

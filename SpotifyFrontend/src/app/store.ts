@@ -7,6 +7,9 @@ import storage from 'redux-persist/lib/storage';
 import {persistReducer, persistStore} from 'redux-persist';
 import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from "redux-persist/es/constants";
 import {compositionHistoryReducer} from "../store/slices/compositionHistorySlice/compositionHistorySlice.ts";
+import {artistAdminReducer} from "../features/admin/artistAdminSlice.ts";
+import {albumAdminReducer} from "../features/admin/albumAdminSlice.ts";
+import {compositionAdminReducer} from "../features/admin/compositionAdminSlice.ts";
 
 const usersPersistConfig = {
     key: 'store:users',
@@ -16,8 +19,11 @@ const usersPersistConfig = {
 
 const rootReducer = combineReducers({
     artists: artistReducer,
+    adminArtists: artistAdminReducer,
     albums: albumReducer,
+    adminAlbums: albumAdminReducer,
     compositions: compositionReducer,
+    adminCompositions: compositionAdminReducer,
     histories: compositionHistoryReducer,
     users: persistReducer(usersPersistConfig, userReducer),
 })

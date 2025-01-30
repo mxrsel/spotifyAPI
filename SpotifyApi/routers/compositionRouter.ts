@@ -3,7 +3,6 @@ import Composition from "../models/Composition";
 import {CompositionWithoutId} from "../types";
 import Album from "../models/Album";
 import auth from "../middleware/auth";
-import permit from "../middleware/permit";
 
 export const compositionRouter = express.Router();
 
@@ -15,7 +14,7 @@ compositionRouter.get('/', async(req, res, next) => {
             res.send(await Composition.find({album: albumId}).populate("album", "-_id name artist released albumImage"))
         }
 
-        res.send(await Composition.find().
+        res.send(await Composition.find({isPublished: true}).
         populate("album", "-_id name artist released albumImage").
         sort({composition_number: 1}));
     } catch(e) {

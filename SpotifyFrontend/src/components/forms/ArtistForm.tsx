@@ -13,7 +13,8 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
     const [form , setForm] = useState<ArtistMutation>({
         name: '',
         artistImage: null,
-        artistBio: ''
+        artistBio: '',
+        isPublished: false
     });
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -71,7 +72,7 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
                 buttonProps={{startIcon: <CloudUpload/>}}
                 onChange={handleFileChange}
             />
-            <Button type="submit" variant="contained" color="primary" sx={{mt: 2}}>
+            <Button type="submit" variant="contained" color="primary" sx={{mt: 2}} onClick={() => form.isPublished = true}>
                 Create Artist
             </Button>
         </form>

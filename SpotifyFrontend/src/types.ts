@@ -1,6 +1,7 @@
 export interface User {
     _id: string
     username: string;
+    role: string;
     token: string
 }
 
@@ -40,12 +41,14 @@ export interface Artist {
     name: string;
     artistImage: string | null
     artistBio: string
+    isPublished: boolean
 }
 
 export interface ArtistMutation {
     name: string;
     artistImage: File | null;
     artistBio: string;
+    isPublished: boolean
 }
 
 export interface Album {
@@ -54,6 +57,7 @@ export interface Album {
     artist: Artist
     released: number
     albumImage: string | null
+    isPublished: boolean
 }
 
 export interface AlbumMutation {
@@ -61,6 +65,7 @@ export interface AlbumMutation {
     name: string;
     released: string
     albumImage: File | null
+    isPublished: boolean
 }
 
 export interface Composition {
@@ -69,6 +74,7 @@ export interface Composition {
     album: Album
     timing: string
     composition_number: number
+    isPublished: boolean
 }
 
 export interface CompositionMutation {
@@ -76,6 +82,7 @@ export interface CompositionMutation {
     name: string;
     timing: string
     composition_number: string
+    isPublished: boolean
 }
 
 export interface CompositionHistoryTypes {

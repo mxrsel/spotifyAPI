@@ -30,7 +30,6 @@ const ExistsUser: React.FC<Props> = ({user}) => {
     return (
         <>
             <div>
-
             <Button
             onClick={onClick}
             style={{color: 'white'}}>
@@ -41,8 +40,28 @@ const ExistsUser: React.FC<Props> = ({user}) => {
             keepMounted
             open={Boolean(anchorEl)}
             onClose={onClose}>
+
+                {user && user.role === 'admin' &&
+                    <MenuItem>
+                        <NavLink to='/admin' className='text-decoration-none text-black'>
+                            For Admin
+                        </NavLink>
+                    </MenuItem>
+                }
                 <MenuItem>
-                    Profile
+                    <NavLink to='/newArtist' className='text-decoration-none text-black'>
+                        Add New Artist
+                    </NavLink>
+                </MenuItem>
+                <MenuItem>
+                    <NavLink to='/newAlbum' className='text-decoration-none text-black'>
+                        Add New Album
+                    </NavLink>
+                </MenuItem>
+                <MenuItem>
+                    <NavLink to='/newComposition' className='text-decoration-none text-black'>
+                        Add New Composition
+                    </NavLink>
                 </MenuItem>
                 <MenuItem >
                     <NavLink

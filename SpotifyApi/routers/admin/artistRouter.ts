@@ -20,7 +20,7 @@ artistAdminRouter.delete('/:id', async(req, res, next) => {
             return
         }
 
-        await Artist.findByIdAndDelete(id);
+        await Artist.findOneAndDelete({_id: id});
         res.send({message: 'Artist deleted successfully.'});
     } catch(e) {
         next(e)
