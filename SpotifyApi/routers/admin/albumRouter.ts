@@ -1,7 +1,6 @@
 import express from "express";
 import Album from "../../models/Album";
-import permit from "../../middleware/permit";
-import {albumRouter} from "../albumRouter";
+
 
 export const albumAdminRouter = express.Router();
 

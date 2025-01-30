@@ -6,6 +6,9 @@ import ArtistAlbums from "./features/artists/ArtistAlbums.tsx";
 import AlbumCompositions from "./features/albums/AlbumCompositions.tsx";
 import LoginPage from "./features/users/LoginPage.tsx";
 import History from "./features/history/History.tsx";
+import NewAlbum from "./containers/newAlbum/newAlbum.tsx";
+import NewArtist from "./containers/newArtist/newArtist.tsx";
+import NewComposition from "./containers/newComposition/newComposition.tsx";
 
 const App = () => {
     return (
@@ -21,6 +24,9 @@ const App = () => {
                 <Route path="/albums/:artistId/albums" element={<ArtistAlbums />} />
                 <Route path="/albums/:albumId" element={<AlbumCompositions />} />
                 <Route path='/histories' element={<History/>}/>
+                <Route path='/newAlbum' element={<NewAlbum/>}/>
+                <Route path='/newArtist' element={<NewArtist/>}/>
+                <Route path='/newComposition' element={<NewComposition/>}/>
             </Routes>
         </div>
     );

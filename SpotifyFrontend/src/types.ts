@@ -59,7 +59,7 @@ export interface Album {
 export interface AlbumMutation {
     artist: string;
     name: string;
-    released: number
+    released: string
     albumImage: File | null
 }
 
@@ -75,7 +75,7 @@ export interface CompositionMutation {
     album: string;
     name: string;
     timing: string
-    composition_number: number
+    composition_number: string
 }
 
 export interface CompositionHistoryTypes {

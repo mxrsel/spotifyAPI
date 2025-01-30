@@ -1,6 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {Composition, CompositionMutation} from "../../../types.ts";
 import axiosApi from "../../../axiosApi.ts";
+import {RootState} from "../../../app/store.ts";
 
 export const getAllCompositions = createAsyncThunk<Composition[], void>(
     'compositions/getAllCompositions',
@@ -10,10 +11,13 @@ export const getAllCompositions = createAsyncThunk<Composition[], void>(
     }
 );
 
-export const addComposition = createAsyncThunk<void, CompositionMutation>(
+export const addComposition = createAsyncThunk<void, CompositionMutation, {state: RootState}>(
     'compositions/addComposition',
-    async(composition) => {
-        await axiosApi.post('/compositions', {...composition});
+    async(composition, {getState}) => {
+        const token = getState().users.user?.token
+        await axiosApi.post('/compositions', {...composition}, {
+            headers: {Authorization: token}
+        });
     }
 );
 
