@@ -5,7 +5,7 @@ import Spinner from "../../components/UI/Spinner/Spinner.tsx";
 import {addArtist} from "../../store/thunks/artistThunk/artistThunk.ts";
 import ArtistForm from "../../components/forms/ArtistForm.tsx";
 
-const NewAlbum = () => {
+const NewArtist = () => {
     const dispatch = useAppDispatch();
     const loading = useAppSelector((state) => state.artists.isLoading)
     const navigate = useNavigate();
@@ -26,4 +26,4 @@ const NewAlbum = () => {
     );
 };
 
-export default NewAlbum;
+export default NewArtist;

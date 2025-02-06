@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {RegisterUser} from "../../types.ts";
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid2';
@@ -10,15 +10,18 @@ import {Avatar, Button} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {NavLink, useNavigate} from "react-router-dom";
 import {register} from "../../store/thunks/userThunk/userThunk.ts";
+import FileInput from "../../components/UI/FileInput/FileInput.tsx";
 
 const RegisterPage = () => {
     const dispatch = useAppDispatch();
-    const registerError = useAppSelector((state) => state.users.isError);
+    const registerError = useAppSelector((state) => state.users.registerError);
     const navigate = useNavigate();
 
     const [user, setUser] = useState<RegisterUser>({
         username: '',
-        password: ''
+        password: '',
+        userAvatar: null,
+        displayName: '',
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +52,16 @@ const RegisterPage = () => {
         }
     }
 
+    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const {files} = e.target;
+        if(files && files[0]) {
+            setUser((prev) => ({
+                ...prev,
+                userAvatar: files![0]
+            }));
+        }
+    };
+
     return (
         <div>
             <Container component="main" maxWidth="xs">
@@ -68,7 +81,28 @@ const RegisterPage = () => {
                     </Typography>
                     <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
                         <Grid container direction={'column'} size={12} spacing={2}>
-
+                            <Grid>
+                                <FileInput
+                                    fullWidth
+                                    label="Avatar"
+                                    name="userAvatar"
+                                    buttonText="Choose avatar"
+                                    onChange={handleFileChange}
+                                />
+                            </Grid>
+                            <Grid>
+                                <TextField
+                                    fullWidth
+                                    id="displayName"
+                                    label="Display Name"
+                                    name="displayName"
+                                    autoComplete="name"
+                                    value={user.displayName}
+                                    onChange={handleChange}
+                                    error={Boolean(getFieldErr('displayName'))}
+                                    helperText={getFieldErr('displayName')}
+                                />
+                            </Grid>
                             <Grid size={{xs: 12}}>
                                 <TextField
                                     fullWidth

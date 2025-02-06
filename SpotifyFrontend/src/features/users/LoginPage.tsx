@@ -9,7 +9,8 @@ import Container from '@mui/material/Container';
 import {Alert, Avatar, Button} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {NavLink, useNavigate} from "react-router-dom";
-import {login} from "../../store/thunks/userThunk/userThunk.ts";
+import {googleLogin, login} from "../../store/thunks/userThunk/userThunk.ts";
+import {GoogleLogin} from "@react-oauth/google";
 
 const RegisterPage = () => {
     const dispatch = useAppDispatch();
@@ -38,6 +39,11 @@ const RegisterPage = () => {
             navigate('/');
     };
 
+    const handleGoogleLogin = async(credential: string) => {
+        await dispatch(googleLogin(credential)).unwrap();
+        navigate('/');
+    }
+
     return (
         <div>
             <Container component="main" maxWidth="xs">
@@ -61,6 +67,16 @@ const RegisterPage = () => {
                             {loginError.error}
                         </Alert>
                     )}
+
+                    <Box>
+                        <GoogleLogin
+                            onSuccess={(credentialResponse) => {
+                               if(credentialResponse.credential) {
+                                   void handleGoogleLogin(credentialResponse.credential)
+                               }
+                        }}
+                            onError={() => alert('Login failed')}/>
+                    </Box>
 
                     <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
                         <Grid container direction={'column'} size={12} spacing={2}>

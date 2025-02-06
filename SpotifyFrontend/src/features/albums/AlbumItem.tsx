@@ -14,7 +14,7 @@ const AlbumItem: React.FC<Props> = ({albums}) => {
                 <div className='card mt-5 '>
                     <div className='card-img'>
                         {albums.albumImage && (
-                            <img src={`${BASE_URL}/${albums.albumImage}`} alt={albums.name}/>
+                            <img src={`${BASE_URL}/public/${albums.albumImage}`} alt={albums.name}/>
                         )}
                     </div>
                     <div className='card-header'>

@@ -1,23 +1,55 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {GlobalError, LoginUser, RegisterResponse, RegisterUser, User, ValidationErr} from "../../../types.ts";
+import {
+    GlobalError,
+    LoginUser,
+    RegisterResponse,
+    RegisterUser,
+    User,
+    ValidationErr
+} from "../../../types.ts";
 import axiosApi from "../../../axiosApi.ts";
 import {isAxiosError} from "axios";
 import {RootState} from "../../../app/store.ts";
 
+export const googleLogin = createAsyncThunk<User, string, {rejectValue: GlobalError}>(
+    'users/googleLogin',
+    async(credential, {rejectWithValue}) => {
+        try {
+            const response = await axiosApi.post<RegisterResponse>('users/google', {credential});
+            return response.data.user
+        } catch(e) {
+            if (isAxiosError(e) && e.response && e.response.status === 400) {
+                return rejectWithValue(e.response.data as GlobalError);
+            }
+            throw e
+        }
+    }
+)
+
+
 export const register = createAsyncThunk<RegisterResponse,
     RegisterUser,
-    {rejectValue: ValidationErr}
+    { rejectValue: ValidationErr }
 >(
     'users/register',
-    async(register: RegisterUser, {rejectWithValue}) => {
+    async (register: RegisterUser, { rejectWithValue }) => {
         try {
-            const response = await axiosApi.post<RegisterResponse>('/users/register', register);
-            return response.data
-        } catch(e) {
+            const formData = new FormData();
+            formData.append('username', register.username);
+            formData.append('password', register.password);
+            formData.append('displayName', register.displayName);
+            if (register.userAvatar) {
+                formData.append('userAvatar', register.userAvatar);
+            }
+
+            const response = await axiosApi.post<RegisterResponse>('/users/register', formData);
+
+            return response.data;
+        } catch (e) {
             if (isAxiosError(e) && e.response && e.response.status === 400) {
                 return rejectWithValue(e.response.data);
             }
-            throw e
+            throw e;
         }
     }
 );

@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import {User} from "../../../types.ts";
-import {Button, Menu, MenuItem} from "@mui/material";
+import {Avatar, Button, Menu, MenuItem} from "@mui/material";
 import {NavLink} from "react-router-dom";
 import {useAppDispatch} from "../../../app/hooks.ts";
 import {logoutUser} from "../../../store/slices/userSlice/userSlice.ts";
 import {logout} from "../../../store/thunks/userThunk/userThunk.ts";
+import Box from "@mui/material/Box";
+import {BASE_URL} from "../../../globalConstants.ts";
 
 interface Props {
     user: User
@@ -30,11 +32,14 @@ const ExistsUser: React.FC<Props> = ({user}) => {
     return (
         <>
             <div>
-            <Button
-            onClick={onClick}
-            style={{color: 'white'}}>
-                {user.username}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Avatar src={`${BASE_URL}/public/${user.userAvatar}`} alt={user.displayName} />
+                        <Button
+                            onClick={onClick}
+                            style={{color: 'white'}}>
+                            {user.displayName}
             </Button>
+                </Box>
             <Menu
             anchorEl={anchorEl}
             keepMounted

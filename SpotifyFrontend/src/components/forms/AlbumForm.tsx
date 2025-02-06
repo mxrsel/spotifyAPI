@@ -18,7 +18,7 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
     const [form , setForm] = useState<AlbumMutation>({
         artist: '',
         name: '',
-        released: '',
+        released: 0,
         albumImage: null,
         isPublished: false
     });
@@ -55,7 +55,19 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        onSubmit(form)
+        if (!form.albumImage) {
+            alert("Please upload an album image!");
+            return;
+        }
+        console.log('data:', form)
+
+        const released = Number(new Date(form.released).toDateString())
+
+        onSubmit({
+            ...form,
+            released
+
+        })
     }
 
 

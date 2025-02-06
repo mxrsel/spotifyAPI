@@ -36,19 +36,25 @@ albumRouter.get('/:id', async(req, res, next) => {
 })
 
 albumRouter.post('/', imagesUpload.single('albumImage'), auth, async(req, res, next) => {
-    try {
+    console.log("Request body:", req.body);
+    console.log("Uploaded file:", req.file);
+
+    if(!req.body.name) {
+        res.status(404).send({error: 'Enter Artist Name!'})
+    }
+
         const newAlbum: AlbumWithoutId = {
             name: req.body.name,
             artist: req.body.artist,
-            released: Number(new Date().toDateString()),
-            albumImage: req.file ? 'album/' + req.file.filename : null,
+            released: new Date().toDateString(),
+            albumImage: req.file ? 'images/' + req.file.filename : null,
             isPublished: req.body.isPublished
         }
 
+        try {
         const album = new Album(newAlbum);
         await album.save();
         res.send(album)
-
     } catch(e) {
             next(e)
         }

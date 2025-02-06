@@ -2,8 +2,12 @@ export interface User {
     _id: string
     username: string;
     role: string;
-    token: string
+    token: string;
+    googleId: string;
+    displayName: string;
+    userAvatar: string | null;
 }
+
 
 export interface RegisterResponse {
     user: User;
@@ -29,6 +33,8 @@ export interface GlobalError {
 export interface RegisterUser {
     username: string;
     password: string;
+    userAvatar: File | null;
+    displayName: string;
 }
 
 export interface LoginUser {
@@ -63,7 +69,7 @@ export interface Album {
 export interface AlbumMutation {
     artist: string;
     name: string;
-    released: string
+    released: number
     albumImage: File | null
     isPublished: boolean
 }

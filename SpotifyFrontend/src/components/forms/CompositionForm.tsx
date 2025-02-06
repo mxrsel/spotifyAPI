@@ -10,7 +10,7 @@ interface Props {
     onSubmit: (composition: CompositionMutation) => void;
 }
 
-const AlbumForm: React.FC<Props> = ({onSubmit}) => {
+const CompositionForm: React.FC<Props> = ({onSubmit}) => {
     const dispatch = useAppDispatch();
     const albums = useAppSelector((state) => state.albums.albums);
     const [form , setForm] = useState<CompositionMutation>({
@@ -105,4 +105,4 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
     );
 };
 
-export default AlbumForm;
+export default CompositionForm;

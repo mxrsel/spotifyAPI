@@ -24,7 +24,7 @@ artistRouter.get('/:id', async(req, res, next) => {
     }
 });
 
-artistRouter.post("/", imagesUpload.single('artistImage'), auth, async (req, res, next) => {
+artistRouter.post("/", imagesUpload.single('images'), auth, async (req, res, next) => {
 
     if(!req.body.name) {
         res.status(404).send({error: 'Enter Artist Name!'})
@@ -32,7 +32,7 @@ artistRouter.post("/", imagesUpload.single('artistImage'), auth, async (req, res
 
     const newArtist: ArtistWithoutId = {
         name: req.body.name,
-        artistImage: req.file ? '/' + req.file.filename : null,
+        artistImage: req.file ? 'images/' + req.file.filename : null,
         artistBio: req.body.artistBio,
         isPublished: req.body.isPublished
     }

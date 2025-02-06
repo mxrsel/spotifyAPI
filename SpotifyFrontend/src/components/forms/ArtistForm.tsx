@@ -9,7 +9,7 @@ interface Props {
     onSubmit: (artist: ArtistMutation) => void;
 }
 
-const AlbumForm: React.FC<Props> = ({onSubmit}) => {
+const ArtistForm: React.FC<Props> = ({onSubmit}) => {
     const [form , setForm] = useState<ArtistMutation>({
         name: '',
         artistImage: null,
@@ -79,4 +79,4 @@ const AlbumForm: React.FC<Props> = ({onSubmit}) => {
     );
 };
 
-export default AlbumForm;
+export default ArtistForm;

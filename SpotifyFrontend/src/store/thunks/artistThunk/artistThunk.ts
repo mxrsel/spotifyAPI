@@ -17,15 +17,18 @@ export const addArtist = createAsyncThunk<void, ArtistMutation, {state: RootStat
         const token = getState().users.user?.token
         const formData = new FormData();
 
-        const artistKeys = Object.keys(artist) as (keyof ArtistMutation)[];
+       formData.append('name', artist.name);
+       if (artist.artistBio) {
+           formData.append('artistBio', artist.artistBio);
+       }
 
-        artistKeys.forEach((artistKey) => {
-            const artistValue = artist[artistKey];
+        if (artist.artistImage) {
+            formData.append('artistImage', artist.artistImage);
+        }
 
-            if(artistValue !== null && artistValue !== undefined) {
-                formData.append(artistKey, artistValue.toString());
-            }
-        });
+        if (artist.isPublished) {
+            formData.append('isPublished', String(artist.isPublished));
+        }
 
         await axiosApi.post('/artists', formData, {
             headers: {Authorization: token}

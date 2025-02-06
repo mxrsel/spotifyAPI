@@ -17,15 +17,18 @@ export const addAlbum = createAsyncThunk<void, AlbumMutation, {state: RootState}
         const token = getState().users.user?.token
         const formData = new FormData();
 
-        const albumKeys = Object.keys(album) as (keyof AlbumMutation)[];
+        formData.append('name', album.name);
+        formData.append('artist', album.artist);
+        formData.append('released', String(album.released));
 
-        albumKeys.forEach((albumKey) => {
-            const albumValue = album[albumKey];
 
-            if(albumValue !== null) {
-                formData.append(albumKey, albumValue.toString());
-            }
-        });
+        if (album.albumImage) {
+            formData.append('albumImage', album.albumImage);
+        }
+
+        if (album.isPublished) {
+            formData.append('isPublished', String(album.isPublished));
+        }
         await axiosApi.post('/albums', formData, {
             headers: {Authorization: token}
         });

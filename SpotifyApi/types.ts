@@ -14,7 +14,7 @@ export interface Album {
     _id: string
     name: string
     artist: string
-    released: number
+    released: string
     albumImage: string | null
     isPublished: boolean
 }
@@ -39,4 +39,7 @@ export interface UserTypes {
     password: string
     token: string
     role: string
+    displayName: string;
+    googleId: string;
+    userAvatar: string | null
 }

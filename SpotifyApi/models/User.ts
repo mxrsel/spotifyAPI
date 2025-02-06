@@ -47,6 +47,15 @@ const UserSchema = new Schema<
         type: String,
         unique: true
     },
+    displayName: {
+        type: String,
+        required: true
+    },
+    googleId: String,
+    userAvatar: {
+        type: String,
+        default: null,
+    }
 });
 
 UserSchema.pre('save', async function(next) {

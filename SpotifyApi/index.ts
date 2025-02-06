@@ -8,13 +8,14 @@ import {compositionRouter} from "./routers/compositionRouter";
 import {userRouter} from "./routers/userRouter";
 import {HistoryRouter} from "./routers/compositionHistoryRouter";
 import adminRouter from "./routers/admin";
+import path from "path";
 
 const app = express();
 const port = 8000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use('/artists', artistRouter);
 app.use('/albums', albumRouter);
